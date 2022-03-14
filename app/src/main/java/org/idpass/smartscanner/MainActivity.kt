@@ -50,6 +50,7 @@ import org.idpass.smartscanner.lib.scanner.config.*
 import org.idpass.smartscanner.result.IDPassResultActivity
 import org.idpass.smartscanner.result.ResultActivity
 import org.idpass.smartscanner.settings.SettingsActivity
+import org.idpass.smartscanner.settings.SettingsActivity.Companion.ORIENTATION
 
 
 class MainActivity : AppCompatActivity() {
@@ -58,11 +59,12 @@ class MainActivity : AppCompatActivity() {
         const val OP_SCANNER = 1001
         var imageType = ImageResultType.PATH.value
 
-        private fun sampleConfig(isManualCapture: Boolean, label: String = "") = Config(
+        private fun sampleConfig(isManualCapture: Boolean, label: String = "", orientation : String? = Orientation.PORTRAIT.value) = Config(
             branding = true,
             imageResultType = imageType,
             label = label,
-            isManualCapture = isManualCapture
+            isManualCapture = isManualCapture,
+            orientation = orientation
         )
     }
 
@@ -97,11 +99,11 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         // Choose scan type
-        binding.itemBarcode.item.setOnClickListener { scanBarcode(BarcodeOptions.default) }
-        binding.itemIdpassLite.item.setOnClickListener { scanIDPassLite() }
+        //binding.itemBarcode.item.setOnClickListener { scanBarcode(BarcodeOptions.default) }
+        //binding.itemIdpassLite.item.setOnClickListener { scanIDPassLite() }
         binding.itemMrz.item.setOnClickListener { scanMRZ() }
-        binding.itemQR.item.setOnClickListener { scanQRCode() }
-        binding.itemNfc.item.setOnClickListener { scanNFC() }
+        //binding.itemQR.item.setOnClickListener { scanQRCode() }
+        //binding.itemNfc.item.setOnClickListener { scanNFC() }
         // Change language
         binding.languageSettings.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -149,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             ScannerOptions(
                 mode = Modes.MRZ.value,
                 language = getLanguage(preference),
-                config = sampleConfig(true)
+                config = sampleConfig(isManualCapture = true, orientation = getOrientation(preference)),
             )
         )
         startActivityForResult(intent, OP_SCANNER)
@@ -195,6 +197,7 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, OP_SCANNER)
     }
 
+    private fun getOrientation(pref : SharedPreferences?) = pref?.getString(ORIENTATION, Orientation.LANDSCAPE.value)
     private fun getLanguage(pref : SharedPreferences?) = pref?.getString(Language.NAME, Language.EN)
 
     @SuppressLint("LogNotTimber")
