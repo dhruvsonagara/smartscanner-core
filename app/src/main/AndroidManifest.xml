@@ -3,6 +3,7 @@
     package="org.idpass.smartscanner">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -10,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -20,22 +22,35 @@
     <application
         android:name=".SmartScannerApplication"
         android:allowBackup="true"
-        android:requestLegacyExternalStorage="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="${APP_NAME}"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="MainActivity">
+        <activity
+            android:name="MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".result.ResultActivity" />
-        <activity android:name=".result.IDPassResultActivity" />
-        <activity android:name=".settings.SettingsActivity" />
+        <activity
+            android:name=".result.ResultActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".result.IDPassResultActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="nosensor" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="nosensor" />
+
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="ocr" />
